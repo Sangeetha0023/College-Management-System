@@ -1,0 +1,559 @@
+//ui
+
+package com.client;
+import java.util.*;
+import com.service.*;
+
+
+import com.management.CourseManagement;
+import com.management.StudentManagement;
+import com.model.Course;
+import com.model.Student;
+import com.service.StudentService;
+import com.util.ApplicationUtil;
+
+public class UserInterface 
+{
+	//101:aswin:22-09-2002:2024:2024:85:54:yes:aswin@gmail.com:45677532
+	public static void main(String a[])
+	{
+		
+//		System.out.println(ApplicationUtil.convertStringToDate("12-09-2000"));
+		Scanner sc=new Scanner(System.in);
+		int c=0;
+		do
+		{
+		System.out.println("Welcome to College Management System");
+		System.out.println("1.Student Module");
+		System.out.println("2.Course Module");
+		System.out.println("3.Enrollment Module");
+		System.out.println("4.Attendance Module");
+		System.out.println("5.Mark Module");
+		System.out.println("6.Payment Module");
+		System.out.println("7.Exit");
+		
+		System.out.println("Enter the choice");
+		c=sc.nextInt();
+		
+		if(c==1)
+		{
+			int choice = 0;
+			do
+			{
+				System.out.println("1.Insert Student Details");
+				System.out.println("2.Update Student Details");
+				System.out.println("3.Retrive Student Details based on year of study");
+				System.out.println("4.Retrieve Student Details based on Student Id");
+				System.out.println("5.Delete Student Details");
+				
+				System.out.println("Enter Your Choice");
+				choice = sc.nextInt();
+				StudentService ss= new StudentService();
+				
+				if(choice==1)
+				{
+					System.out.println("Enter the number of students");
+					int n= sc.nextInt();
+					String arr[] = new String[n];
+					System.out.println("Enter the student details");
+					for(int i=0;i<n;i++)
+					{
+						arr[i]=sc.next();
+					}
+					if(ss.addStudentObject(arr))
+					{
+						System.out.println("the student record is inserted");
+					}
+					else
+					{
+						System.out.println("No records added");
+					}
+				}
+				
+				if(choice == 2)
+				{
+					System.out.println("Enter the Student Id");
+					String id=sc.next();
+					System.out.println("Enter the phone number to be updated");
+					long phno=sc.nextLong();
+					
+					if(ss.updatePhoneNumber(id,phno))
+					{
+						System.out.println("Student phone number updated successfully");
+					}
+					else
+					{
+						System.out.println("Student phone number is not updated");
+					}
+					
+				}
+				if(choice==3)
+				{
+					System.out.println("Enter the year of study");
+					int year = sc.nextInt();
+					ArrayList<Student> li = new ArrayList<Student>();
+					li = ss.viewStudentByYearOfStudy(year);
+					if(li.isEmpty())
+					{
+						System.out.println("No Student records available based on year of study");
+					}
+					else
+					{
+						for(Student s:li)
+						{
+							System.out.println("Admission number : "+s.getAdmissionNumber());
+							System.out.println("Student Id : "+s.getStudentId());
+							System.out.println("Student Name : "+s.getStudentName());
+							System.out.println("Date of Birth : "+s.getDob());
+							System.out.println("Year of study : "+s.getYearOfStudy());
+							System.out.println("Year of joining : "+s.getYearOfJoining());
+							System.out.println("Tenth grade mark : "+s.getTenthGradeMark());
+							System.out.println("Twelfth grade mark : "+s.getTwelfthGradeMark());
+							System.out.println("First Graduate : "+s.getFirstGraduate());
+							System.out.println("Email Id : "+s.getEmailId());
+							System.out.println("Phone Number : "+s.getPhoneNumber());
+						}
+					}
+				}
+				
+				if(choice==4)
+				{
+					System.out.println("Enter the Student Id");
+				    String studId = sc.next();
+					ArrayList<Student> li = new ArrayList<Student>();
+					li = ss.viewStudentById(studId);
+					if(li.isEmpty())
+					{
+						System.out.println("No Student records available based on year of study");
+					}
+					else
+					{
+						for(Student s:li)
+						{
+							System.out.println("Admission number : "+s.getAdmissionNumber());
+							System.out.println("Student Id : "+s.getStudentId());
+							System.out.println("Student Name : "+s.getStudentName());
+							System.out.println("Date of Birth : "+s.getDob());
+							System.out.println("Year of study : "+s.getYearOfStudy());
+							System.out.println("Year of joining : "+s.getYearOfJoining());
+							System.out.println("Tenth grade mark : "+s.getTenthGradeMark());
+							System.out.println("Twelfth grade mark : "+s.getTwelfthGradeMark());
+							System.out.println("First Graduate : "+s.getFirstGraduate());
+							System.out.println("Email Id : "+s.getEmailId());
+							System.out.println("Phone Number : "+s.getPhoneNumber());
+						}
+					}
+				}
+				
+				if(choice==5)
+				{
+					System.out.println("Enter the Student Id");
+				    String stud = sc.next();
+				    if(ss.deleteStudentDetails(stud))
+				    {
+				    	System.out.println("Student details deleted successfully");
+				    }
+				    else
+				    {
+				    	System.out.println("Student details not deleted");
+				    }
+				}
+				
+			}while(choice>=5);	
+		}
+		if(c==2)
+		{
+			CourseService cs=new CourseService();
+			System.out.println("Course Details");
+			int choice=0;
+			do
+			{
+				System.out.println("Select the option");
+				System.out.println("1.Insert the course record");
+				System.out.println("2.Update the course fee using course id");
+				System.out.println("3.Delete the course");
+				System.out.println("4.Retrieve the course details using course id");
+				choice=sc.nextInt();
+				if(choice==1)
+				{
+					System.out.println("Enter the number of records to be added");
+					int n=sc.nextInt();
+					
+					String[] course = new String[n];
+					
+					System.out.println("Enter the course details");
+					for(int i=0;i<n;i++)
+					{
+						course[i]=sc.next();
+					}
+					
+					
+					if(cs.addCourse(course))
+					{
+						System.out.println(n+" record inserted successfully");
+					}
+					else
+					{
+						System.out.println("Record insertion failed");
+					}
+				}
+				if(choice==2)
+				{
+					System.out.println("Enter the Course Id");
+					String id=sc.next();
+					
+					System.out.println("Enter the fee to be updated");
+					double fee=sc.nextDouble();
+					
+					boolean b=cs.updateFee(id,fee);
+					
+					if(b)
+					{
+						System.out.println("Fee updated successfully");
+					}
+					else
+					{
+						System.out.println("Fee updation failed");
+					}
+					
+				}
+				if(choice==3)
+				{
+					System.out.println("Enter the Course Id");
+					String id=sc.next();
+					
+					boolean b=cs.deleteCourse(id);
+					
+					if(b)
+					{
+						System.out.println("Course deleted successfully");
+					}
+					else
+					{
+						System.out.println("Course deletion failed");
+					}
+				}
+				if(choice==4)
+				{
+					System.out.println("Enter the course id");
+					String id=sc.next();
+					
+					List<Course> l=new ArrayList<Course>();
+					l=cs.retrieveCourseData(id);
+					
+					if(l.isEmpty())
+					{
+						System.out.println("No records available");
+					}
+					else
+					{
+					
+					for(Course p:l)
+					{
+						System.out.println("Course Id : "+p.getCourseId());
+						System.out.println("Course Name : "+p.getCourseName());
+						System.out.println("Course Coordinator : "+p.getCourseCoordinator());
+						System.out.println("Course Department : "+p.getDepartment());
+						System.out.println("Course Fee : "+p.getCourseFee());
+					}
+					}
+				}
+			}while(choice<=4);
+		}
+		
+		if(c==3)
+		{
+			System.out.println("Enter the Enrollment details");
+			System.out.println("Enter the number of records to be added");
+			int enroll=sc.nextInt();
+			String[] arr=new String[enroll];
+			for(int j=0;j<enroll;j++) 
+			{
+				arr[j]=sc.next();
+			}
+		}
+		
+		if(c==4)
+		{
+		   System.out.println("Enter the Attendance details");
+		   System.out.println("Enter the number of records to be added");
+		   int rec=sc.nextInt();
+		   String[] details=new String[rec];
+		   for(int j=0;j<rec;j++)
+		   {
+			   details[j]=sc.next();
+		   }
+		   
+		   
+		   
+		}
+		
+		if(c==5)
+		{
+			//marks..
+			//m..
+			System.out.println("Enter the Mark details");
+			System.out.println("Enter the number of records to be added");
+			int m=sc.nextInt();
+			String[] marks=new String[m];
+			for(int i=0;i<m;i++) 
+			{
+				marks[i]=sc.next();
+			}
+			
+		}
+		
+		if(c==6)
+		{
+			System.out.println("Enter the Payment details");
+			System.out.println("Enter the number of records to be added");
+			int p=sc.nextInt();
+			String[] pay=new String[p];
+			for(int j=0;j<p;j++)
+			{
+				pay[j]=sc.next();
+			}
+			
+		}
+		if(c==7)
+		{
+			System.out.println("Thank you for using this Application");
+			return;
+		}
+		}while(c<=7);
+	
+	
+	}
+}
+
+
+//cs
+
+package com.service;
+
+import java.util.*;
+
+import com.model.Course;
+
+import com.management.*;
+
+public class CourseService 
+{
+	CourseManagement cm=new CourseManagement();
+	public boolean addCourse(String... courseDetails)
+	{
+		List<Course> cList=parseCourseDetails(courseDetails);
+		if(cm.addCourseDetails(cList))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean updateFee(String id,double fee)
+	{
+		
+		if(cm.updateFee(fee,id))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean deleteCourse(String id)
+	{
+		if(cm.deleteCourse(id))
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public List<Course> retrieveCourseData(String id)
+	{
+		return cm.retrieveCourseData(id);
+	}
+	
+	public List<Course> parseCourseDetails(String... courseDetails)
+	{
+		List<Course> courseList=new ArrayList<Course>();
+		
+		for(int i=0;i<courseDetails.length;i++)
+		{
+			String a[]=courseDetails[i].split(":");
+			String cid=a[0];
+			String cname=a[1];
+			String coorname=a[2];
+			String dept=a[3];
+			Double fee=Double.parseDouble(a[4]);
+			
+			Course cs=new Course(cid,cname,coorname,dept,fee);
+			courseList.add(cs);
+			
+		}
+		return courseList;
+	}
+}
+
+
+//cm
+
+package com.management;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.model.Course;
+
+public class CourseManagement
+{
+	public boolean addCourseDetails(List<Course> cou)
+	{
+		try
+		{
+			int sta=0;
+			for(Course c:cou)
+			{
+				DBConnectionManagement d=new DBConnectionManagement();
+				Connection c1=d.getConnection();
+			
+				String q="insert into course values(?,?,?,?,?)";
+				PreparedStatement p=c1.prepareStatement(q);
+			
+				p.setString(1,c.getCourseId());
+				p.setString(2, c.getCourseName());
+				p.setString(3, c.getCourseCoordinator());
+				p.setString(4,c.getDepartment());
+				p.setDouble(5, c.getCourseFee());
+				
+			
+				sta=p.executeUpdate();
+			}
+			
+			if(sta>0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+			
+		}
+		catch(SQLException e) 
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(ClassNotFoundException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		return false;
+
+	}
+	
+	public boolean updateFee(Double f,String id)
+	{
+		int s=0;
+		try
+		{
+			DBConnectionManagement d=new DBConnectionManagement();
+			Connection c=d.getConnection();
+			String q="update course set COURSE_FEE=? where COURSE_ID=?";
+			PreparedStatement p=c.prepareStatement(q);
+			p.setDouble(1,f);
+			p.setString(2,id);
+			
+			s=p.executeUpdate();
+			
+			if(s>0)
+			{
+				return true;
+			}
+			
+			return false;
+			
+			
+		}
+		catch(SQLException e) 
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(ClassNotFoundException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		return false;
+	}
+	
+	public boolean deleteCourse(String id)
+	{
+		int s=0;
+		try
+		{
+			DBConnectionManagement d=new DBConnectionManagement();
+			Connection c=d.getConnection();
+			String q="delete from course where COURSE_ID=?";
+			PreparedStatement p=c.prepareStatement(q);
+			p.setString(1, id);
+			
+			s=p.executeUpdate();
+					
+			if(s>0)
+			{
+				return true;
+			}
+			
+			return false;
+		}
+		catch(SQLException e) 
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(ClassNotFoundException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		return false;
+	}
+	
+	public List<Course> retrieveCourseData(String id)
+	{
+		List<Course> clist=new ArrayList<Course>();
+		try
+		{
+			DBConnectionManagement d=new DBConnectionManagement();
+			Connection c=d.getConnection();
+			String q="select * from course where COURSE_ID=?";
+			PreparedStatement p=c.prepareStatement(q);
+			p.setString(1, id);
+			ResultSet r=p.executeQuery();
+			
+			while(r.next()) 
+			{
+				String cid=r.getString(1);
+				String cname=r.getString(2);
+				String coor=r.getString(3);
+				String dept=r.getString(4);
+				double cfee=r.getDouble(5);
+				
+				Course c1=new Course(id,cname,coor,dept,cfee);
+				
+				clist.add(c1);
+			}
+			
+			
+		}
+		catch(SQLException e) 
+		{
+			System.out.println(e.getMessage());
+		}
+		catch(ClassNotFoundException e)
+		{
+			System.out.println(e.getMessage());
+		}
+		return clist;
+	}
+}
+	
+
